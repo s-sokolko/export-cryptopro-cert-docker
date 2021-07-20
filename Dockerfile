@@ -5,8 +5,8 @@ ARG REPO=https://github.com/kov-serg/get-cpcert.git
 ARG SUBDIR=get-cpcert
 ARG WORKDIR=/data
 
-RUN apt -yq update \
-    && apt -yq install unzip git wget make cmake gcc g++ pkg-config \
+RUN apt update -yq \
+    && apt install -yq unzip git wget make cmake gcc g++ pkg-config \
     && cd $BASEDIR \
     && git clone $REPO $SUBDIR \
     && cd $SUBDIR \
@@ -14,7 +14,9 @@ RUN apt -yq update \
     && ./prepare.sh \
     && ./build.sh \
     && cp ./*.so /lib \
-    && cp ./get-cpcert /bin/
+    && cp ./get-cpcert /bin/ \
+    && rm -rf $BASEDIR/$SUBDIR \
+    && rm -rf /var/lib/apt/lists/*
 
 VOLUME $WORKDIR
 WORKDIR $WORKDIR
