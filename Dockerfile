@@ -16,6 +16,9 @@ RUN apt update -yq \
     && cp ./*.so /lib \
     && cp ./get-cpcert /bin/ \
     && rm -rf $BASEDIR/$SUBDIR \
+    && apt-get purge -yq unzip git wget make cmake gcc g++ pkg-config \
+    && apt-get autoremove -yq --purge \
+    && apt-get clean -yq \
     && rm -rf /var/lib/apt/lists/*
 
 VOLUME $WORKDIR
